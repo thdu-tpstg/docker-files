@@ -1,0 +1,35 @@
+version: "3"
+
+services:
+    wpdb:
+        image: maradb:latest
+        container_name: wordpress_db
+        volumes:
+            - /srv/database:/var/lib/mysql
+        restart: unless-stopped
+        env_file: .env
+        environment:
+            MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+            MYSQL_DATABASE: ${MYSQL_DATABASE}
+            MYSQL_USER: ${MYSQL_USER}
+            MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+
+    wordpress:
+        depends_on:
+            - wpdb
+        image: wordpress:latest
+        container_name: wordpress_srv
+        volumes:
+            - /srv/wordpress/html:/var/www/html
+            - /srv/wordpress/conf:/usr/local/etc/php/conf.d/php.ini
+        environment:
+            WORDPRESS_DB_HOST: wordpress_db:3306
+            WORDPRESS_DB_NAME: ${MYSQL_DATABASE}
+            WORDPRESS_DB_USER: ${MYSQL_USER}
+            WORDPRESS_DB_PASSWORD: ${MYSQL_PASSWORD}
+        ports:
+            - "127.0.0.1:8080:80"
+        logging:
+            options:
+                max-size: ${LOGGING_OPTIONS_MAX_SIZE:-20M}
+        
