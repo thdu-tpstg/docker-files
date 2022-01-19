@@ -1,0 +1,21 @@
+version: "3"
+services:
+  transmission:
+    image: lscr.io/linuxserver/transmission
+    container_name: transmission
+    environment:
+      - PUID=1001
+      - PGID=1001
+      - TZ=Europe/Paris
+      - TRANSMISSION_WEB_HOME=/combustion-release/ #optional
+      - USER=torrent #optional
+      - PASS=torrent #optional
+    volumes:
+      - /home/torrent/config:/config
+      - /home/torrent/downloads:/downloads
+      - /home/torrent/watch:/watch
+    ports:
+      - 127.0.0.1:9091:9091
+      - 51413:51413
+      - 51413:51413/udp
+    restart: always
