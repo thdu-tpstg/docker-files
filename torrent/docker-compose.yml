@@ -7,9 +7,9 @@ services:
       - PUID=1001
       - PGID=1001
       - TZ=Europe/Paris
-      - TRANSMISSION_WEB_HOME=/combustion-release/ #optional
-      - USER=torrent #optional
-      - PASS=torrent #optional
+      - TRANSMISSION_WEB_HOME=/combustion-release/
+      - USER=torrent
+      - PASS=torrent
     volumes:
       - /home/torrent/config:/config
       - /home/torrent/downloads:/downloads

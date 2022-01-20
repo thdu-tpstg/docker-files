@@ -6,7 +6,7 @@ services:
         container_name: wordpress_db
         volumes:
             - /srv/database:/var/lib/mysql
-        restart: unless-stopped
+        restart: always 
         env_file: .env
         environment:
             MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
@@ -22,6 +22,7 @@ services:
         volumes:
             - /srv/wordpress/html:/var/www/html
             - /srv/wordpress/conf:/usr/local/etc/php/conf.d/php.ini
+        restart: always 
         environment:
             WORDPRESS_DB_HOST: wordpress_db:3306
             WORDPRESS_DB_NAME: ${MYSQL_DATABASE}
@@ -32,4 +33,3 @@ services:
         logging:
             options:
                 max-size: ${LOGGING_OPTIONS_MAX_SIZE:-20M}
-        
